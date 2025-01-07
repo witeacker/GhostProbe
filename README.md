@@ -1,25 +1,15 @@
 # GhostProbe
 ## Overview
-This tool monitors wireless networks for specific security threats, such as Deauthentication attacks, Dissociation attacks, and Rogue Access Points. It captures and analyzes packets transmitted over the network to detect these attacks in real-time. The tool is intended for network administrators and cybersecurity professionals who want to monitor and secure wireless networks.
+This tool monitors wireless networks for de-authentication, dissociation attacks, and Rogue AP attacks. It captures and analyzes packets transmitted over the network to detect these attacks in real-time.
 
 ### Features
 - **Deauthentication Attack Detection:** Detects and logs deauthentication attacks targeting access points and clients.
 - **Dissociation Attack Detection:** Detects and logs dissociation attacks targeting wireless clients.
 - **Rogue Access Point Detection:** Detects and logs rogue access points broadcasting a network with the same SSID as legitimate access points but with a different BSSID.
 - **Packet Sniffing:** Uses `scapy` to sniff wireless packets and identify attacks in real-time.
-- **Log Rotation:** Logs attack messages to a file with automatic rotation when the file size exceeds 10 MB.
-- **Interface Management:** This allows users to select and switch between wireless interfaces in monitor mode for packet sniffing.
+- **Log Rotation:** Logs attack messages to a .txt file.
 
 ### Tested on Kali Linux
-
-## Requirements
-Before you begin, ensure you have the following installed:
-- **Python 3.x**: The script is written in Python.
-- **scapy**: Python library for packet crafting and sniffing. Install with `pip install scapy`.
-- **termcolor**: For colorful terminal output. Install with `pip install termcolor`.
-- **airmon-ng**: A tool for managing wireless interfaces on Linux. It is used to enable monitor mode.
-- **iwconfig**: A Linux tool for configuring wireless interfaces.
-- **root privileges**: You need to run the script with root privileges to manage interfaces and sniff packets.
 
 ## Installation
 1. **Clone the repository:**
