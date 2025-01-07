@@ -1,6 +1,6 @@
 # GhostProbe
 ## Overview
-This tool monitors wireless networks for de-authentication, dissociation attacks, and Rogue AP attacks. It captures and analyzes packets transmitted over the network to detect these attacks in real-time.
+This script monitors wireless networks for de-authentication, dissociation attacks, and Rogue AP attacks. It captures and analyzes packets transmitted over the network to detect these attacks in real-time.
 
 ### Features
 - **Deauthentication Attack Detection:** Detects and logs deauthentication attacks targeting access points and clients.
