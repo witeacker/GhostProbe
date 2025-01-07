@@ -6,14 +6,10 @@ import signal
 from scapy.all import sniff, Dot11, Dot11Deauth, Dot11Disas, Dot11Beacon
 from termcolor import colored
 
-# Log file setup
 LOG_FILE = "deauth_log.txt"
 MAX_LOG_SIZE = 10 * 1024 * 1024  # 10 MB (rotate logs if larger)
-
-# Global container to track SSIDs and BSSIDs
 seen_aps = {}
 
-# Log Message Function
 def log_message(message):
     """Log a message to the log file with rotation."""
     if os.path.exists(LOG_FILE) and os.path.getsize(LOG_FILE) > MAX_LOG_SIZE:
@@ -21,7 +17,6 @@ def log_message(message):
     with open(LOG_FILE, "a") as log:
         log.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} - {message}\n")
 
-# List interfaces
 def list_interfaces():
     """List available wireless interfaces."""
     try:
@@ -36,7 +31,6 @@ def list_interfaces():
         print(colored(f"Error listing interfaces: {e.stderr}", "red"))
         return []
 
-# Check if the interface is already in monitor mode
 def is_monitor_mode(interface):
     """Check if the interface is in monitor mode."""
     try:
@@ -45,7 +39,6 @@ def is_monitor_mode(interface):
     except subprocess.CalledProcessError:
         return False
 
-# Enable Monitor Mode
 def enable_monitor_mode(interface):
     """Enable monitor mode on the selected interface."""
     if is_monitor_mode(interface):
@@ -59,7 +52,6 @@ def enable_monitor_mode(interface):
         print(colored(f"Error enabling monitor mode: {e.stderr}", "red"))
         return None
 
-# Disable Monitor Mode
 def disable_monitor_mode(interface):
     """Disable monitor mode and restore managed mode."""
     try:
@@ -68,7 +60,6 @@ def disable_monitor_mode(interface):
     except subprocess.CalledProcessError as e:
         print(colored(f"Error disabling monitor mode: {e.stderr}", "red"))
 
-# Detect Deauth Attack
 def detect_deauth(packet):
     if packet.haslayer(Dot11Deauth):
         bssid = packet.addr1
@@ -86,7 +77,6 @@ def detect_dissoc(packet):
         print(colored(f"[ALERT] {message}", "red"))
         log_message(message)
 
-# Detect Rogue AP
 def detect_rogue_ap(packet):
     if packet.haslayer(Dot11Beacon):
         ssid = packet.info.decode()
@@ -98,13 +88,11 @@ def detect_rogue_ap(packet):
         else:
             seen_aps[ssid] = bssid
 
-# Detect multiple attacks
 def detect_attacks(packet):
     detect_deauth(packet)
     detect_dissoc(packet)
     detect_rogue_ap(packet)
 
-# Sniff packets on an interface
 def sniff_interface(interface):
     print(f"Sniffing on interface {interface}...")
     try:
@@ -113,13 +101,11 @@ def sniff_interface(interface):
         log_message(f"Error while sniffing on {interface}: {str(e)}")
         print(colored(f"Sniffing error: {e}", "red"))
 
-# Signal handler to stop sniffing gracefully
 def stop_sniffing(signum, frame):
     print(colored("Stopping sniffing... Restoring interface.", "green"))
     disable_monitor_mode(mon_interface)
     exit(0)
 
-# Start sniffing on multiple interfaces
 def start_sniffing_on_multiple_interfaces():
     interfaces = list_interfaces()
     if not interfaces:
@@ -145,7 +131,6 @@ def start_sniffing_on_multiple_interfaces():
         print(colored("Failed to enable monitor mode. Exiting...", "red"))
         return
 
-    # Register signal handler
     signal.signal(signal.SIGINT, stop_sniffing)
 
     sniff_thread = threading.Thread(target=sniff_interface, args=(mon_interface,))
