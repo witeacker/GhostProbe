@@ -21,7 +21,7 @@ This tool monitors wireless networks for de-authentication, dissociation attacks
    ```bash
    pip install -r requirements.txt
    ```
-3. **Ensure your wireless card supports monitor mode** and is compatible with the tools used (e.g., `airmon-ng`, `iwconfig`).
+3. **Ensure your wireless card supports monitor mode**
 
 ## Usage
 ### Starting the Tool
